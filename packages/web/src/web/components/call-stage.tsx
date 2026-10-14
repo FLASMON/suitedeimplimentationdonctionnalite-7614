@@ -209,7 +209,23 @@ export default function CallStage({
   }
   const mobileGrid = gridSize.width < 560;
   const featured = !minimized && (sharing || layout === "focus");
-  const perPage = minimized ? 4 : featured ? (mobileGrid ? 3 : 6) : mobileGrid ? 6 : 16;
+  const gridCapacity = Math.max(
+    1,
+    Array.from({ length: 32 }, (_, i) => i + 1)
+      .filter((n) =>
+        fitGrid(n, gridSize.width, gridSize.height, mobileGrid ? 8 : 12).every(
+          (r) => r.width >= (mobileGrid ? 115 : 170) && r.height >= (mobileGrid ? 72 : 106),
+        ),
+      )
+      .pop() || 1,
+  );
+  const perPage = minimized
+    ? 4
+    : featured
+      ? mobileGrid
+        ? 3
+        : 6
+      : Math.min(mobileGrid ? 6 : 16, gridCapacity);
   useEffect(() => setPage(0), [perPage]);
   const pool = featured && !sharing ? people.filter((p) => p.id !== focus) : people;
   const pageCount = Math.max(1, Math.ceil(pool.length / perPage));
@@ -392,7 +408,10 @@ export default function CallStage({
                   {connected && call.video && (!p.self || camera) ? (
                     p.self && localPreview ? (
                       <video
-                        ref={cameraRef}
+                        ref={(element) => {
+                          cameraRef.current = element;
+                          if (element) element.srcObject = stream.current;
+                        }}
                         autoPlay
                         muted
                         playsInline

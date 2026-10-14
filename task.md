@@ -15,11 +15,13 @@
 - [x] Grille/focus, conversation, participants, contrôles et réactions animées.
 - [x] Modernisation modérée des transitions de l’interface.
 - [x] Tests desktop/mobile et lint/build réussis.
-- [ ] Livraison mise à jour.
+- [x] Livraison précédente effectuée.
 
 Tests appels : plein écran applicatif, chat envoyé, micro/caméra simulés, réactions, focus/grille, partage simulé, réduire/restaurer, ajouter participant, mobile et raccrocher. Aucun erreur JavaScript. Caméra locale optionnelle avec consentement navigateur ; pas de transmission.
 
 # Correction grille adaptative
-- [ ] Remplacer les grilles CSS fixes par un calcul dimensionnel.
-- [ ] Focus, partage, pagination, retrait des invités.
-- [ ] Tests 2/4/5/8/12/16/20/32 personnes desktop et mobile.
+- [x] Calcul dimensionnel ResizeObserver et tuiles adaptatives.
+- [x] Focus/partage plein espace, pagination lisible et retrait des invités.
+- [x] 42 cas grille/focus/partage : 4/5/8/12/16/20/32 personnes desktop et mobile. Tests 2 personnes précédents.
+
+Vérification finale : régressions messagerie et appel passées, ajout/retrait, caméra/micro simulés, réactions, focus/grille, partage simulé, pagination, réduire/restaurer, chat, fermeture. 8 personnes connectées : portrait et paysage passés. Aucun erreur JS observé. Le nombre de tuiles par page tient aussi compte de la hauteur disponible. Limites existantes inchangées : appels réseau/IA non connectés ; certaines préférences démonstratives.
